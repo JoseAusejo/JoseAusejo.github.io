@@ -8,15 +8,15 @@ const contenedorMuneco = document.querySelector(".contenedor_muneco");
 
 btnCopiar.style.display = "none";
 
-// Función para normalizar el texto (eliminar acentos y convertir a minúsculas)
-function normalizarTexto(texto) {
-    return texto.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
-}
-
 // Función para validar que el texto solo contenga letras minúsculas sin acentos ni caracteres especiales
 function esTextoValido(texto) {
     const regex = /^[a-z\s]+$/;
     return regex.test(texto);
+}
+
+// Función para normalizar el texto (eliminar acentos y convertir a minúsculas)
+function normalizarTexto(texto) {
+    return texto.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
 }
 
 function encriptarTexto(texto) {
@@ -39,41 +39,33 @@ function desencriptarTexto(texto) {
 
 btnEncriptar.addEventListener("click", function() {
     let texto = cajaTexto.value.trim();
-    texto = normalizarTexto(texto);
-    if (texto !== "") {
-        if (esTextoValido(texto)) {
-            const textoEncriptado = encriptarTexto(texto);
-            mensajeFinal.value = textoEncriptado;
-            parrafoInformacion.style.display = "none";
-            contenedorMuneco.style.display = "none";
-            mensajeFinal.style.display = "block";
-            btnCopiar.style.display = "inline-block";
-            cajaTexto.value = '';
-        } else {
-            alert("Por favor, ingresa solo letras minúsculas sin acentos ni caracteres especiales.");
-        }
+    if (esTextoValido(texto)) {
+        texto = normalizarTexto(texto);
+        const textoEncriptado = encriptarTexto(texto);
+        mensajeFinal.value = textoEncriptado;
+        parrafoInformacion.style.display = "none";
+        contenedorMuneco.style.display = "none";
+        mensajeFinal.style.display = "block";
+        btnCopiar.style.display = "inline-block";
+        cajaTexto.value = '';
     } else {
-        alert("Por favor, ingresa un texto para encriptar.");
+        alert("Por favor, ingresa solo letras minúsculas sin acentos ni caracteres especiales.");
     }
 });
 
 btnDesencriptar.addEventListener("click", function() {
     let texto = cajaTexto.value.trim();
-    texto = normalizarTexto(texto);
-    if (texto !== "") {
-        if (esTextoValido(texto)) {
-            const textoDesencriptado = desencriptarTexto(texto);
-            mensajeFinal.value = textoDesencriptado;
-            parrafoInformacion.style.display = "none";
-            contenedorMuneco.style.display = "none";
-            mensajeFinal.style.display = "block";
-            btnCopiar.style.display = "inline-block"; 
-            cajaTexto.value = '';
-        } else {
-            alert("Por favor, ingresa solo letras minúsculas sin acentos ni caracteres especiales.");
-        }
+    if (esTextoValido(texto)) {
+        texto = normalizarTexto(texto);
+        const textoDesencriptado = desencriptarTexto(texto);
+        mensajeFinal.value = textoDesencriptado;
+        parrafoInformacion.style.display = "none";
+        contenedorMuneco.style.display = "none";
+        mensajeFinal.style.display = "block";
+        btnCopiar.style.display = "inline-block"; 
+        cajaTexto.value = '';
     } else {
-        alert("Por favor, ingresa un texto para desencriptar.");
+        alert("Por favor, ingresa solo letras minúsculas sin acentos ni caracteres especiales.");
     }
 });
 
