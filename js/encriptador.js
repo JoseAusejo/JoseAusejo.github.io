@@ -8,6 +8,11 @@ const contenedorMuneco = document.querySelector(".contenedor_muneco");
 
 btnCopiar.style.display = "none";
 
+// Función para normalizar el texto (eliminar acentos y convertir a minúsculas)
+function normalizarTexto(texto) {
+    return texto.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+}
+
 // Función para validar que el texto solo contenga letras minúsculas sin acentos ni caracteres especiales
 function esTextoValido(texto) {
     const regex = /^[a-z\s]+$/;
@@ -33,7 +38,8 @@ function desencriptarTexto(texto) {
 }
 
 btnEncriptar.addEventListener("click", function() {
-    const texto = cajaTexto.value.trim();
+    let texto = cajaTexto.value.trim();
+    texto = normalizarTexto(texto);
     if (texto !== "") {
         if (esTextoValido(texto)) {
             const textoEncriptado = encriptarTexto(texto);
@@ -52,7 +58,8 @@ btnEncriptar.addEventListener("click", function() {
 });
 
 btnDesencriptar.addEventListener("click", function() {
-    const texto = cajaTexto.value.trim();
+    let texto = cajaTexto.value.trim();
+    texto = normalizarTexto(texto);
     if (texto !== "") {
         if (esTextoValido(texto)) {
             const textoDesencriptado = desencriptarTexto(texto);
